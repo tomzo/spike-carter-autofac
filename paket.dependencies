@@ -1,5 +1,7 @@
 source http://nuget-cache.ai-traders.com/api/cache/v3/index.json
 
-nuget Carter 3.8.0
-nuget Microsoft.AspNetCore.Hosting 2.1.0
-nuget Microsoft.AspNetCore.Server.Kestrel 2.1.0
+nuget Carter
+nuget Microsoft.AspNetCore.Hosting
+nuget Microsoft.AspNetCore.Server.Kestrel
+nuget Autofac
+nuget Autofac.Extensions.DependencyInjection

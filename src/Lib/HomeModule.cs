@@ -5,9 +5,9 @@
 
     public class HomeModule : CarterModule
     {
-        public HomeModule()
+        public HomeModule(IProvider service)
         {
-            Get("/", async(req, res, routeData) => await res.WriteAsync("Hello from Carter!"));
+            Get("/", async(req, res, routeData) => await res.WriteAsync(service.Greet()));
         }
     }
 }
