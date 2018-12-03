@@ -6,9 +6,14 @@ nuget Microsoft.AspNetCore.Server.Kestrel
 nuget Autofac
 nuget Autofac.Extensions.DependencyInjection
 
+group Build
+    source http://nuget-cache.ai-traders.com/api/cache/v3/index.json
+
+    nuget xunit.runner.console
+
 group Test
     source http://nuget-cache.ai-traders.com/api/cache/v3/index.json
-    
+
     nuget Microsoft.NET.Test.Sdk
     nuget xunit
     nuget xunit.runner.visualstudio

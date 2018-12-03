@@ -11,10 +11,9 @@ pipelines:
           clean_workspace: true
           jobs:
             build:
-              elastic_profile_id: w.c1.m1024.e5
+              elastic_profile_id: w.c2.m2048.e10
               tasks:
                - exec:
-                  command: /bin/bash
+                  command: ide
                   arguments:
-                    - -c
-                    - "echo \"pipeline not created yet\" && exit 1"
+                    - "./build.sh"
