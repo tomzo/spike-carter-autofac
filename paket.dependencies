@@ -1,4 +1,4 @@
-source http://nuget-cache.ai-traders.com/api/cache/v3/index.json
+source https://api.nuget.org/v3/index.json
 
 nuget Carter
 nuget Microsoft.AspNetCore.Hosting
@@ -7,12 +7,12 @@ nuget Autofac
 nuget Autofac.Extensions.DependencyInjection
 
 group Build
-    source http://nuget-cache.ai-traders.com/api/cache/v3/index.json
+    source https://api.nuget.org/v3/index.json
 
     nuget xunit.runner.console
 
 group Test
-    source http://nuget-cache.ai-traders.com/api/cache/v3/index.json
+    source https://api.nuget.org/v3/index.json
 
     nuget Microsoft.NET.Test.Sdk
     nuget xunit
