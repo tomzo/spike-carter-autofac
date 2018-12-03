@@ -1,9 +1,12 @@
 namespace MyCarterApp
 {
     using System;
+    using System.Linq;
+    using System.Reflection;
     using Autofac;
     using Autofac.Extensions.DependencyInjection;
     using Carter;
+    using FluentValidation;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -28,7 +31,7 @@ namespace MyCarterApp
             // Add services to the collection. Don't build or return
             // any IServiceProvider or the ConfigureContainer method
             // won't get called.
-            services.AddCarter();
+            AddCarter(services, typeof(HomeModule).Assembly);
         }
 
         // ConfigureContainer is where you can register things directly
@@ -52,5 +55,64 @@ namespace MyCarterApp
             app.UseCarter();
         }
 
+        public static void AddCarter(IServiceCollection services, params Assembly[] assemblies)
+        {
+            //PATCH around same issues as in https://github.com/CarterCommunity/Carter/pull/88
+            // we rather just explicitly state assembly with modules to fix loading issues.
+            CarterDiagnostics diagnostics = new CarterDiagnostics();
+            services.AddSingleton(diagnostics);
+
+            var validators = assemblies.SelectMany(ass => ass.GetTypes())
+                .Where(typeof(IValidator).IsAssignableFrom)
+                .Where(t => !t.GetTypeInfo().IsAbstract);
+
+            foreach (var validator in validators)
+            {
+                diagnostics.AddValidator(validator);
+                services.AddSingleton(typeof(IValidator), validator);
+            }
+
+            services.AddSingleton<IValidatorLocator, DefaultValidatorLocator>();
+
+            services.AddRouting();
+
+            var modules = assemblies.SelectMany(x => x.GetTypes()
+                .Where(t =>
+                    !t.IsAbstract &&
+                    typeof(CarterModule).IsAssignableFrom(t) &&
+                    t != typeof(CarterModule) &&
+                    t.IsPublic
+                ));
+
+            foreach (var module in modules)
+            {
+                diagnostics.AddModule(module);
+                services.AddScoped(module);
+                services.AddScoped(typeof(CarterModule), module);
+            }
+
+            var schs = assemblies.SelectMany(x => x.GetTypes().Where(t => typeof(IStatusCodeHandler).IsAssignableFrom(t) && t != typeof(IStatusCodeHandler)));
+            foreach (var sch in schs)
+            {
+                diagnostics.AddStatusCodeHandler(sch);
+                services.AddScoped(typeof(IStatusCodeHandler), sch);
+            }
+
+            var responseNegotiators = assemblies.SelectMany(x => x.GetTypes()
+                .Where(t =>
+                    !t.IsAbstract &&
+                    typeof(IResponseNegotiator).IsAssignableFrom(t) &&
+                    t != typeof(IResponseNegotiator) &&
+                    t != typeof(DefaultJsonResponseNegotiator)
+                ));
+
+            foreach (var negotiatator in responseNegotiators)
+            {
+                diagnostics.AddResponseNegotiator(negotiatator);
+                services.AddSingleton(typeof(IResponseNegotiator), negotiatator);
+            }
+
+            services.AddSingleton<IResponseNegotiator, DefaultJsonResponseNegotiator>();
+        }
     }
 }
