@@ -5,3 +5,12 @@ nuget Microsoft.AspNetCore.Hosting
 nuget Microsoft.AspNetCore.Server.Kestrel
 nuget Autofac
 nuget Autofac.Extensions.DependencyInjection
+
+group Test
+    source http://nuget-cache.ai-traders.com/api/cache/v3/index.json
+    
+    nuget Microsoft.NET.Test.Sdk
+    nuget xunit
+    nuget xunit.runner.visualstudio
+    nuget Microsoft.AspNetCore.TestHost
+    nuget Moq
