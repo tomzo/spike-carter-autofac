@@ -26,7 +26,7 @@ namespace MyCarterApp
         public IContainer ApplicationContainer { get; private set; }
         public IConfigurationRoot Configuration { get; private set; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             // Add services to the collection. Don't build or return
             // any IServiceProvider or the ConfigureContainer method
@@ -48,9 +48,7 @@ namespace MyCarterApp
         // Configure is where you add middleware. This is called after
         // ConfigureContainer. You can use IApplicationBuilder.ApplicationServices
         // here if you need to resolve things from the container.
-        public void Configure(
-            IApplicationBuilder app,
-            ILoggerFactory loggerFactory)
+        public static void ConfigureCarter(IApplicationBuilder app)
         {
             app.UseCarter();
         }

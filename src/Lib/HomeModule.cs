@@ -5,9 +5,9 @@
 
     public class HomeModule : CarterModule
     {
-        public HomeModule(IProvider service)
+        public HomeModule(/*FIXME IProvider service*/)
         {
-            Get("/", async(req, res, routeData) => await res.WriteAsync(service.Greet()));
+            Get("/carter", async(req, res, routeData) => await res.WriteAsync("hello from carter"));
         }
     }
 }
