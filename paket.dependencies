@@ -5,6 +5,8 @@ nuget Microsoft.AspNetCore.Hosting
 nuget Microsoft.AspNetCore.Server.Kestrel
 nuget Autofac
 nuget Autofac.Extensions.DependencyInjection
+nuget Freya
+nuget Microsoft.AspNetCore.Owin
 
 group Build
     source http://nuget-cache.ai-traders.com/api/cache/v3/index.json
