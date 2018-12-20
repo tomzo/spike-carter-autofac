@@ -5,5 +5,10 @@
     <AssemblyName>MyCarterApp</AssemblyName>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FLib\FLib.fsproj">
+      <Name>FLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

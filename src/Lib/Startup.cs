@@ -48,9 +48,10 @@ namespace MyCarterApp
         // Configure is where you add middleware. This is called after
         // ConfigureContainer. You can use IApplicationBuilder.ApplicationServices
         // here if you need to resolve things from the container.
-        public static void ConfigureCarter(IApplicationBuilder app)
+        public static void Configure(IApplicationBuilder app)
         {
-            app.UseCarter();
+            KestrelInterop.ApplicationBuilder.configureApp(app);
+            app.UseCarter();            
         }
 
         public static void AddCarter(IServiceCollection services, params Assembly[] assemblies)
