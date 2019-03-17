@@ -17,7 +17,7 @@ namespace MyTests
         {
             using(var testServer = new TestServerBuilder().Build()) {
                 var client = testServer.CreateClient();
-                var result = await client.GetStringAsync("/");
+                var result = await client.GetStringAsync("/carter");
                 Assert.Equal("Hello from MyProvider", result);
             }
         }
@@ -31,7 +31,7 @@ namespace MyTests
                 .WithMock<IProvider>(typeof(IProvider), mock)
                 .Build()) {
                 var client = testServer.CreateClient();
-                var result = await client.GetStringAsync("/");
+                var result = await client.GetStringAsync("/carter");
                 Assert.Equal("Hello from mock", result);
             }
         }
